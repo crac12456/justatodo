@@ -6,26 +6,30 @@ package cmd
 import (
 	"fmt"
 
-	//"encoding/json"
 	"github.com/spf13/cobra"
+	"pkg/globals"
 )
 
 // newCmd represents the new command
 var newCmd = &cobra.Command{
-	Use:   "new",
-	Short: "Añadir nueva tarea",
+	Use:   "new",                // Comando que tenemos que llamar para invocar esta función
+	Short: "Añadir nueva tarea", // descripción
 	Long: `Esto permite añadir nuevas tareas a nuestra lista
 	
 	Las tareas tien los siguientes datos: nombre de la tarea, descripción e importancia`,
-	Args: cobra.ExactArgs(1),
+	Args: cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("new called")
+		// var task1 main.Task // creamos el struct
+
+		task1.name = args[0]
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(newCmd)
 
+	// newCmd.Flags()String()
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
