@@ -43,6 +43,8 @@ var newCmd = &cobra.Command{
 		} else {
 			newTask.Priority = 1
 		}
+
+		pkg.InsertDb(newTask) // Ingresamos los datos a la base de datos
 	},
 }
 
