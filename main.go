@@ -6,16 +6,15 @@ package main
 import (
 	"database/sql" // para usar la base de datos
 	"log"          // mostrar mensajes de error
-	"main.go/cmd"
+	"todogo/cmd"
 	//NOTE: no te olvides de: "time"
 
 	_ "github.com/mattn/go-sqlite3" // para tener mejor compatibilidad con sqlite
 )
 
-// TODO: mirar eso de los pquetes, me va a dar problemas tarde o temprano
-
 func main() {
 	db, err := sql.Open("sqlite3", "./todogo.db") // creamos la base de datos
+
 	if err != nil {
 		log.Fatal(err) // verificamos que no tenga ningun error en la creación
 	}
@@ -33,7 +32,7 @@ func main() {
 		name TEXT NOT NULL,
 		description TEXT,
 		priority INTEGER DEFAULT 1,
-		estate BOOLEAN,
+		estate BOOLEAN DEFAULT FALSE,
 		created DATETIME DEFAULT CURRENT_TIMESTAMP
 		due DATE
 		)

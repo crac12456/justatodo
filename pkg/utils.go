@@ -8,6 +8,7 @@ import (
 )
 
 // TODO: falta añadir una forma de mostrar los datos
+// TODO: ahora falta rescribir esta funcion para que funcione con el struct
 
 func InsertDb(name, description, date string, priority int) { // Introducimos datos a la base de datos
 	db, err := sql.Open("sqlite3", "./todogo.db") // creamos la base de datos
@@ -41,6 +42,17 @@ func InsertDb(name, description, date string, priority int) { // Introducimos da
 
 }
 
-func showDb() {
+// NOTE: Esto es la base de los datos, estos son los datos que tendra cada tarea
+type Task struct {
+	Name        string
+	Description string
+	Priority    int
+	Estate      bool
+	Created     string
+	Due         string
+}
+
+// NOTE: Esta funcion se encarga de mostrar todas las tareas
+func ShowItems() {
 
 }
