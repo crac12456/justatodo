@@ -7,8 +7,6 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-// TODO: ahora falta rescribir esta funcion para que funcione con el struct
-
 func InsertDb(task Task) { // Introducimos datos a la base de datos
 	db, err := sql.Open("sqlite3", "./todogo.db") // creamos la base de datos
 
@@ -51,7 +49,30 @@ type Task struct {
 	Due         string
 }
 
+func countDB(db *sql.DB) (int, error) {
+	var count int    //el numero de tablas
+	var query string // La peticion a la base de datos
+
+	query = `
+		SELECT COUNT(*)
+		FROM sqlite_master
+		WHERE type = 'table'
+		AND name NOT LIKE 'sqlite_%'
+	`
+
+	err := db.QueryRow(query).Scan(&count) // hacemos la peticion a la base de datos
+
+	if err != nil { // Si no hay tablas, regresamos 0 o err
+		return 0, err
+	}
+
+	return count, nil
+}
+
 // NOTE: Esta funcion se encarga de mostrar todas las tareas
+// TODO: Terminar la funcion xd
 func ShowItems() {
+	if countDB() < 1 {
+	}
 
 }

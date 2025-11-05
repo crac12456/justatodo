@@ -34,11 +34,13 @@ var newCmd = &cobra.Command{
 		newTask.Name = args[0]
 		newTask.Due = args[1]
 
-		newTask.Created = time.ANSIC
+		newTask.Created = time.ANSIC // añadimos el tiempo de creacion en formato ansii
 
 		newTask.Description = description
 
-		if priority > 0 || priority < 4 {
+		// NOTE: Podria cambiar el sistema con el cual se indica la prioridad para que sea por texto
+		// Por ejemplo "baja", "media", "alta"
+		if priority > 0 || priority < 4 { // comprovamos que el usuario halla ingresado de forma correcta la prioridad
 			newTask.Priority = priority
 		} else {
 			newTask.Priority = 1
@@ -51,6 +53,7 @@ var newCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(newCmd)
 
+	// NOTE: estas son flags por ser opcionales, debe ser como una descripcion extendida o instrucciones, mas la prioridad que por defecto es 1 (baja)
 	newCmd.Flags().StringVarP(&description, "desc", "d", "", "añade una descripcion a la tarea") // Flag para añadir una tarea
 	newCmd.Flags().IntVarP(&priority, "priority", "p", 1, "prioridad de la tarea")
 	// Here you will define your flags and configuration settings.
