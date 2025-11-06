@@ -12,6 +12,8 @@ import (
 	_ "github.com/mattn/go-sqlite3" // para tener mejor compatibilidad con sqlite
 )
 
+// TODO: La siguiente tarea esta en table.go
+
 func main() {
 	db, err := sql.Open("sqlite3", "./todogo.db") // creamos la base de datos
 
@@ -32,7 +34,7 @@ func main() {
 		name TEXT NOT NULL,
 		description TEXT,
 		priority INTEGER DEFAULT 1,
-		estate BOOLEAN DEFAULT FALSE,
+		state BOOLEAN DEFAULT FALSE,
 		created DATETIME DEFAULT CURRENT_TIMESTAMP
 		due DATE
 		)

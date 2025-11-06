@@ -49,7 +49,8 @@ type Task struct {
 	Due         string
 }
 
-func countDB(db *sql.DB) (int, error) {
+// NOTE: Essta funcion se encarga de conseguir cuantas tareas se encuetran para su uso en table.go
+func CountDB(db *sql.DB) (int, error) {
 	var count int    //el numero de tablas
 	var query string // La peticion a la base de datos
 
@@ -67,12 +68,4 @@ func countDB(db *sql.DB) (int, error) {
 	}
 
 	return count, nil
-}
-
-// NOTE: Esta funcion se encarga de mostrar todas las tareas
-// TODO: Terminar la funcion xd
-func ShowItems() {
-	if countDB() < 1 {
-	}
-
 }
