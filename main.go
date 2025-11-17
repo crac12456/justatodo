@@ -28,7 +28,7 @@ func main() {
 	}
 
 	// Creamos una base de datos en sql
-	_, err = db.Exec(`  
+	_, err = db.Exec(`
 		CREATE TABLE IF NOT EXIST task (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		name TEXT NOT NULL,

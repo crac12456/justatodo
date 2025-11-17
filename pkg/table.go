@@ -12,11 +12,11 @@ import (
 )
 
 // NOTE: Esta funcion se encarga de mostrar todas las tareas
-// TODO: Transformar los datos de la db a datos en un string
 // TODO: Hacer una forma de que se reste la fecha actual de la fecha de vencimiento
 
 func ShowItems(db *sql.DB) {
-	// Esta funcion se encarga de mostrar las distintas tareas, hacer la tabla y todo esok
+	// Esta funcion se encarga de mostrar las distintas tareas en una tabla
+	// utilizamos la libreria tablewriter
 
 	// conseguimos la cantidad de bases de datos
 	count, err := CountDB(db)
@@ -31,17 +31,35 @@ func ShowItems(db *sql.DB) {
 		fmt.Print("No tiene tareas")
 	}
 
-	//NOTE: Mi idea aqui es crear el tipico bucle for para enviar los datos a un slice y de ese slice a un slice 2d
-	//ese slice 2d sera lo que imprimira la tabla 
+	allTask := []Task{}
 
-	var allTask [][]string 
-
-	for id, id >= count {
-		var buffer []string
-		row, err := db.Query(
-			"SELECT id, name, description, priority, state, created, due", id
-			).Scan(&buffer)
+	rows, err := db.Query("SELECt * FROM task") //Seleccionamos las tareas
+	if err != nil {
+		log.Fatal(err)
 	}
+
+	for rows.Next() {
+
+		// Declaramos variables con los datos que conseguiremos de la db
+		var name, description, created, due string
+		var id, priority int
+		var state bool
+
+		// Hacemos la peticion de los datos
+		err := rows.Scan(&id, &name, &description, &priority, &state, &created, &due)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		// Esta variable tendra los datos temporalmente
+		buffer := Task{Id: id, Name: name, Description: description,
+			Priority: priority, State: state,
+			Created: created, Due: due}
+
+		allTask = append(allTask, buffer) // Añadimos el buffer como nueva tarea al struct
+	}
+
+	defer rows.Close()
 
 	tableHead := []string{"ID", "Nombre", "Descripcion", "Prioridad", "Vencimiento", "Estado"} //Los datos en encabezado
 

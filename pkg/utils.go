@@ -7,15 +7,20 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func InsertDb(task Task) { // Introducimos datos a la base de datos
+// TODO: encontrar una forma de comprovar la fecha
+
+func InsertDb(task Task) {
+	// Introducimos los datos a la db
+
 	db, err := sql.Open("sqlite3", "./todogo.db") // creamos la base de datos
 
-	if err != nil {
+	if err != nil { // Comprobamos errores en la creacion de la base de datos
 		log.Fatal(err)
 	}
 	defer db.Close()
 
-	if len(task.Created) != 10 { // verificadno que la fecha este ingresada correctamente, esto no funcina muy bien, pero es algo
+	if len(task.Created) != 10 { // verificamos que la fecha este ingresada correctamente, esto no funcina muy bien, pero es algo
+		// WARN: deberia cambiar esto lo mas pronto posible
 		log.Fatal("No se ha ingresado la fecha correctamente")
 	}
 
@@ -27,7 +32,7 @@ func InsertDb(task Task) { // Introducimos datos a la base de datos
 		log.Fatal("se ha ingresado incorrectamente la prioridad")
 	}
 
-	// Ingresamos los datos a la base de datos
+	// Ingresamos los datos
 	_, err = db.Exec(`
 		INSERT INTO task (name, due, description, priority, created)
 		VALUES (?, ?, ?, ?, ?)
@@ -41,19 +46,27 @@ func InsertDb(task Task) { // Introducimos datos a la base de datos
 
 // NOTE: Esto es la base de los datos, estos son los datos que tendra cada tarea
 type Task struct {
+	Id          int
 	Name        string
 	Description string
 	Priority    int
-	Estate      bool
+	State       bool
 	Created     string
 	Due         string
 }
 
-// NOTE: Essta funcion se encarga de conseguir cuantas tareas se encuetran para su uso en table.go
+// NOTE: Esta funcion consigue la cantidad de tablas en la db
+
 func CountDB(db *sql.DB) (int, error) {
+	/*
+	 * Esta funcion es utilizada con el fin de hacer comprovaciones en otras partes del codigo,
+	 * Devuelve la cantidad de tareas
+	 */
+
 	var count int    //el numero de tablas
 	var query string // La peticion a la base de datos
 
+	// La peticion a la db para obtener la cantidad de registros
 	query = `
 		SELECT COUNT(*)
 		FROM sqlite_master
